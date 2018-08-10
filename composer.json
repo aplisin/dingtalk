@@ -1,0 +1,13 @@
+{
+    "name": "aplisin/dingtalk",
+    "description": "It is probably the best SDK in the world for developing Dingtalk App",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "IlhamTahir",
+            "email": "yantaq@bilig.biz"
+        }
+    ],
+    "require": {}
+}
