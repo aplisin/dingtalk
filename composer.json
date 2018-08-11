@@ -1,6 +1,13 @@
 {
     "name": "aplisin/dingtalk",
     "description": "It is probably the best SDK in the world for developing Dingtalk App",
+    "keywords": [
+        "dingtalk",
+        "dingding",
+        "dingtalk-sdk",
+        "dingding-sdk",
+        "sdk"
+    ],
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -9,5 +16,7 @@
             "email": "yantaq@bilig.biz"
         }
     ],
-    "require": {}
+    "require": {
+        "php": ">=7.0"
+    }
 }
