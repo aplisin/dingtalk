@@ -20,13 +20,16 @@
         "php": ">=7.0",
         "ext-fileinfo": "*",
         "ext-openssl": "*",
-        "ext-simplexml": "*",
+        "ext-SimpleXML": "*",
         "ext-json": "*",
+        "ext-curl": "*",
+        "ext-libxml": "*",
         "pimple/pimple": "^3.0",
         "monolog/monolog": "^1.23",
         "symfony/http-foundation": "^4.1",
         "guzzlehttp/guzzle": "^6.3",
-        "easywechat-composer/easywechat-composer": "^1.0"
+        "easywechat-composer/easywechat-composer": "^1.0",
+        "symfony/cache": "^4.1"
     },
     "autoload": {
         "psr-4": {

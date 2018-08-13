@@ -9,6 +9,7 @@
 namespace Aplisin\DingTalk\Kernel;
 
 use Aplisin\DingTalk\Kernel\Providers\ConfigServiceProvider;
+use Aplisin\DingTalk\Kernel\Providers\ExtensionServiceProvider;
 use Aplisin\DingTalk\Kernel\Providers\HttpClientServiceProvider;
 use Aplisin\DingTalk\Kernel\Providers\LogServiceProvider;
 use Aplisin\DingTalk\Kernel\Providers\RequestServiceProvider;
@@ -37,7 +38,7 @@ class ServiceContainer extends Container
             LogServiceProvider::class,
             RequestServiceProvider::class,
             HttpClientServiceProvider::class,
-
+            ExtensionServiceProvider::class
         ], $this->providers);
     }
 

@@ -8,7 +8,24 @@
 
 namespace Aplisin\DingTalk;
 
-class Application
-{
+use Aplisin\DingTalk\Auth\AccessToken;
+use Aplisin\DingTalk\Kernel\ServiceContainer;
 
+/**
+ * Class Application
+ * @property AccessToken $access_token
+ */
+class Application extends ServiceContainer
+{
+    protected $defaultConfig = [
+        // http://docs.guzzlephp.org/en/stable/request-options.html
+        'http' => [
+            'base_uri' => 'https://oapi.dingtalk.com/',
+        ],
+    ];
+
+    public function __call($method, $arguments)
+    {
+        return $this['base']->$method(...$arguments);
+    }
 }
