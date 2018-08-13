@@ -11,6 +11,13 @@ namespace Aplisin\DingTalk\Kernel\Log;
 use Aplisin\DingTalk\Kernel\ServiceContainer;
 use Psr\Log\LoggerInterface;
 use Monolog\Logger as Monolog;
+use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\ErrorLogHandler;
+use Monolog\Handler\HandlerInterface;
+use Monolog\Handler\RotatingFileHandler;
+use Monolog\Handler\SlackWebhookHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\SyslogHandler;
 
 class LogManager implements LoggerInterface
 {
@@ -97,7 +104,7 @@ class LogManager implements LoggerInterface
             return $this->callCustomCreator($config);
         }
 
-        $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
+        $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
 
         if (method_exists($this, $driverMethod)) {
             return $this->{$driverMethod}($config);
@@ -106,10 +113,14 @@ class LogManager implements LoggerInterface
         throw new \InvalidArgumentException(\sprintf('Driver [%s] is not supported.', $config['driver']));
     }
 
+    /**
+     * @return Monolog
+     * @throws \Exception
+     */
     protected function createEmergencyLogger()
     {
         return new Monolog('AplisinDingTalk', $this->prepareHandlers([
-            new StreamHandler(\sys_get_temp_dir().'/dingtalk/dingtalk.log', $this->level(['level' => 'debug']))
+            new StreamHandler(\sys_get_temp_dir() . '/dingtalk/dingtalk.log', $this->level(['level' => 'debug']))
         ]));
     }
 
@@ -141,9 +152,13 @@ class LogManager implements LoggerInterface
     protected function createDailyDriver(array $config)
     {
         return new Monolog($this->parseChannel($config), [
-            $this->prepareHandler(new RotatingFileHandler(
-                $config['path'], $config['days'] ?? 7, $this->level($config)
-            )),
+            $this->prepareHandler(
+                new RotatingFileHandler(
+                    $config['path'],
+                    $config['days'] ?? 7,
+                    $this->level($config)
+                )
+            ),
         ]);
     }
 
@@ -161,5 +176,135 @@ class LogManager implements LoggerInterface
                 $this->level($config)
             )),
         ]);
+    }
+
+    protected function createSyslogDriver(array $config)
+    {
+        return new Monolog($this->parseChannel($config), [
+            $this->prepareHandler(
+                new SyslogHandler(
+                    'AplisinDingTalk',
+                    $config['facility'] ?? LOG_USER,
+                    $this->level($config)
+                )
+            ),
+        ]);
+    }
+
+    protected function createErrorlogDriver(array $config)
+    {
+        return new Monolog($this->parseChannel($config), [
+            $this->prepareHandler(
+                new ErrorLogHandler(
+                    $config['type'] ?? ErrorLogHandler::OPERATING_SYSTEM,
+                    $this->level($config)
+                )
+            ),
+        ]);
+    }
+
+    protected function prepareHandlers(array $handlers)
+    {
+        foreach ($handlers as $key => $handler) {
+            $handlers[$key] = $this->prepareHandler($handler);
+        }
+
+        return $handlers;
+    }
+
+    protected function prepareHandler(HandlerInterface $handler)
+    {
+        return $handler->setFormatter($this->formatter());
+    }
+
+    protected function formatter()
+    {
+        $formatter = new LineFormatter(null, null, true, true);
+        $formatter->includeStacktraces();
+
+        return $formatter;
+    }
+
+    protected function parseChannel(array $config)
+    {
+        return $config['name'] ?? null;
+    }
+
+    protected function level(array $config)
+    {
+        $level = $config['level'] ?? 'debug';
+
+        if (isset($this->levels[$level])) {
+            return $this->levels[$level];
+        }
+
+        throw new \InvalidArgumentException('Invalid log level.');
+    }
+
+    public function getDefaultDriver()
+    {
+        return $this->app['config']['log.default'];
+    }
+
+    public function setDefaultDriver($name)
+    {
+        $this->app['config']['log.default'] = $name;
+    }
+
+    public function extend($driver, \Closure $callback)
+    {
+        $this->customCreators[$driver] = $callback->bindTo($this, $this);
+
+        return $this;
+    }
+
+    public function emergency($message, array $context = [])
+    {
+        return $this->driver()->emergency($message, $context);
+    }
+
+    public function alert($message, array $context = [])
+    {
+        return $this->driver()->alert($message, $context);
+    }
+
+    public function critical($message, array $context = [])
+    {
+        return $this->driver()->critical($message, $context);
+    }
+
+    public function error($message, array $context = [])
+    {
+        return $this->driver()->error($message, $context);
+    }
+
+    public function warning($message, array $context = [])
+    {
+        return $this->driver()->warning($message, $context);
+    }
+
+    public function notice($message, array $context = [])
+    {
+        return $this->driver()->notice($message, $context);
+    }
+
+    public function info($message, array $context = [])
+    {
+        return $this->driver()->info($message, $context);
+    }
+
+    public function debug($message, array $context = [])
+    {
+        return $this->driver()->debug($message, $context);
+    }
+
+    public function log($level, $message, array $context = [])
+    {
+        return $this->driver()->log($level, $message, $context);
+    }
+
+    public function __call($method, $parameters)
+    {
+        return $this->driver()->$method(...$parameters);
     }
 }
