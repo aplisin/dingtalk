@@ -8,7 +8,15 @@
 
 namespace Aplisin\DingTalk\Kernel\Support;
 
-class Collection
+use ArrayAccess;
+use Countable;
+use Aplisin\DingTalk\Kernel\Contracts\Arrayable;
+use IteratorAggregate;
+use JsonSerializable;
+use Serializable;
+use ArrayIterator;
+
+class Collection implements ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable, Arrayable
 {
     /**
      * @var array

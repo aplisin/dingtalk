@@ -8,6 +8,7 @@
 
 namespace Aplisin\DingTalk\Kernel;
 
+use Aplisin\DingTalk\Kernel\Providers\ConfigServiceProvider;
 use Pimple\Container;
 
 class ServiceContainer extends Container
@@ -29,7 +30,7 @@ class ServiceContainer extends Container
     public function getProviders()
     {
         return array_merge([
-
+            ConfigServiceProvider::class
         ], $this->providers);
     }
 

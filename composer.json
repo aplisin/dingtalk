@@ -18,7 +18,12 @@
     ],
     "require": {
         "php": ">=7.0",
-        "pimple/pimple": "^3.0"
+        "ext-fileinfo": "*",
+        "ext-openssl": "*",
+        "ext-simplexml": "*",
+        "ext-json": "*",
+        "pimple/pimple": "^3.0",
+        "monolog/monolog": "^1.23"
     },
     "autoload": {
         "psr-4": {

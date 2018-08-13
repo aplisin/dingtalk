@@ -6,10 +6,9 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Aplisin\DingTalk\Kernel;
+namespace Aplisin\DingTalk\Kernel\Contracts;
 
-use Aplisin\DingTalk\Kernel\Support\Collection;
-
-class Config extends Collection
+interface Arrayable
 {
+    public function toArray();
 }
