@@ -14,7 +14,7 @@ class Client extends BaseClient
 {
     /**
      * @param int $id
-     * @return \Aplisin\DingTalk\Kernel\Http\Response|\Aplisin\DingTalk\Kernel\Support\Collection|array|mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function listIds($id = 1)
@@ -26,7 +26,7 @@ class Client extends BaseClient
      * @param int $id
      * @param bool $fetchChild
      * @param string $lang
-     * @return \Aplisin\DingTalk\Kernel\Http\Response|\Aplisin\DingTalk\Kernel\Support\Collection|array|mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function list($id = 1, $fetchChild = false, $lang = 'zh_CN')
@@ -42,7 +42,7 @@ class Client extends BaseClient
     /**
      * @param int $id
      * @param string $lang
-     * @return \Aplisin\DingTalk\Kernel\Http\Response|\Aplisin\DingTalk\Kernel\Support\Collection|array|mixed|\Psr\Http\Message\ResponseInterface
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function get(int $id, $lang = 'zh_CN')
@@ -52,5 +52,26 @@ class Client extends BaseClient
             'lang' => $lang
         ];
         return $this->httpGet('/department/get', $params);
+    }
+
+    /**
+     * @param array $data
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function create(array $data)
+    {
+        return $this->httpPostJson('/department/create', $data);
+    }
+
+    /**
+     * @param int $id
+     * @param array $data
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function update(int $id, array $data)
+    {
+        return $this->httpPostJson('/department/update', array_merge(compact('id'), $data));
     }
 }

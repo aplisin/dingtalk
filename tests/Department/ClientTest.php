@@ -42,4 +42,29 @@ class ClientTest extends BaseCase
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->get(1));
     }
+
+    public function testCreate()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('/department/create', [
+            'name' => 'test Dep',
+            'parentid' => 1
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->create([
+            'name' => 'test Dep',
+            'parentid' => 1
+        ]));
+    }
+
+    public function testUpdate()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpPostJson('/department/update', [
+            'name' => 'test Dep',
+            'id' => 1
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->update(1, [
+            'name' => 'test Dep',
+        ]));
+    }
 }
