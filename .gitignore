@@ -5,3 +5,4 @@ composer.phar
 out
 gen
 composer.lock
+.DS_STORE

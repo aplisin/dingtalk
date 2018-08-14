@@ -21,6 +21,8 @@ class ServiceContainer extends Container
 
     protected $providers = [];
 
+    protected $defaultConfig = [];
+
     protected $userConfig = [];
 
     public function __construct(array $config = [], array $prepends = [], string $id = null)
@@ -29,6 +31,24 @@ class ServiceContainer extends Container
         parent::__construct($prepends);
         $this->userConfig = $config;
         $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id ?? $this->id = md5(json_encode($this->userConfig));
+    }
+
+    public function getConfig()
+    {
+        $base = [
+            // http://docs.guzzlephp.org/en/stable/request-options.html
+            'http' => [
+                'timeout' => 5.0,
+                'base_uri' => 'https://oapi.dingtalk.com/',
+            ],
+        ];
+
+        return array_replace_recursive($base, $this->defaultConfig, $this->userConfig);
     }
 
     public function getProviders()

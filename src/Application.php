@@ -17,6 +17,10 @@ use Aplisin\DingTalk\Kernel\ServiceContainer;
  */
 class Application extends ServiceContainer
 {
+    protected $providers = [
+        Auth\ServiceProvider::class,
+    ];
+
     protected $defaultConfig = [
         // http://docs.guzzlephp.org/en/stable/request-options.html
         'http' => [
