@@ -44,21 +44,48 @@ class BaseClient
         $this->accessToken = $accessToken ?? $this->app['access_token'];
     }
 
+    /**
+     * @param string $url
+     * @param array $query
+     * @return Response|Support\Collection|array|mixed|ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function httpGet(string $url, array $query = [])
     {
         return $this->request($url, 'GET', ['query' => $query]);
     }
 
+    /**
+     * @param string $url
+     * @param array $data
+     * @return Response|Support\Collection|array|mixed|ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function httpPost(string $url, array $data = [])
     {
         return $this->request($url, 'POST', ['form_params' => $data]);
     }
 
+    /**
+     * @param string $url
+     * @param array $data
+     * @param array $query
+     * @return Response|Support\Collection|array|mixed|ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function httpPostJson(string $url, array $data = [], array $query = [])
     {
         return $this->request($url, 'POST', ['query' => $query, 'json' => $data]);
     }
 
+    /**
+     * @param string $url
+     * @param array $files
+     * @param array $form
+     * @param array $query
+     * @return Response|Support\Collection|array|mixed|ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
     public function httpUpload(string $url, array $files = [], array $form = [], array $query = [])
     {
         $multipart = [];
@@ -105,7 +132,6 @@ class BaseClient
 
         return $returnRaw ? $response : $this->castResponseToType($response, $this->app->config->get('response_type'));
     }
-
     public function requestRaw(string $url, string $method = 'GET', array $options = [])
     {
         return Response::buildFromPsrResponse($this->request($url, $method, $options, true));
