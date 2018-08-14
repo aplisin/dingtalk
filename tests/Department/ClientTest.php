@@ -67,4 +67,31 @@ class ClientTest extends BaseCase
             'name' => 'test Dep',
         ]));
     }
+
+    public function testDelete()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpGet('/department/delete', [
+            'id' => 200
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->delete(200));
+    }
+
+    public function testListPrentDeptsByDept()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpGet('/department/list_parent_depts_by_dept', [
+            'id' => 200
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->listPrentDeptsByDept(200));
+    }
+
+    public function testListPrentDepts()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpGet('/department/list_parent_depts', [
+            'userId' => 200
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->listPrentDepts(200));
+    }
 }

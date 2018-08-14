@@ -74,4 +74,34 @@ class Client extends BaseClient
     {
         return $this->httpPostJson('/department/update', array_merge(compact('id'), $data));
     }
+
+    /**
+     * @param int $id
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function delete(int $id)
+    {
+        return $this->httpGet('/department/delete', compact('id'));
+    }
+
+    /**
+     * @param int $id
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function listPrentDeptsByDept(int $id)
+    {
+        return $this->httpGet('/department/list_parent_depts_by_dept', compact('id'));
+    }
+
+    /**
+     * @param int $userId
+     * @return \Aplisin\DingTalk\Kernel\Http\Response
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function listPrentDepts(int $userId)
+    {
+        return $this->httpGet('/department/list_parent_depts', compact('userId'));
+    }
 }
