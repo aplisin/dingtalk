@@ -158,8 +158,8 @@ class BaseClient
 
     protected function accessTokenMiddleware()
     {
-        return function (callable $handler) {
-            return function (RequestInterface $request, array $options) use ($handler) {
+        return function(callable $handler) {
+            return function(RequestInterface $request, array $options) use ($handler) {
                 if ($this->accessToken) {
                     $request = $this->accessToken->applyToRequest($request, $options);
                 }
@@ -178,7 +178,7 @@ class BaseClient
 
     protected function retryMiddleware()
     {
-        return Middleware::retry(function (
+        return Middleware::retry(function(
             $retries,
             RequestInterface $request,
             ResponseInterface $response = null
@@ -197,7 +197,7 @@ class BaseClient
             }
 
             return false;
-        }, function () {
+        }, function() {
             return abs($this->app->config->get('http.retry_delay', 500));
         });
     }

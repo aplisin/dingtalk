@@ -16,7 +16,7 @@ class LogServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $pimple)
     {
-        $pimple['logger'] = $pimple['log'] = function ($app) {
+        $pimple['logger'] = $pimple['log'] = function($app) {
             $config = $this->formatLogConfig($app);
 
             if (!empty($config)) {

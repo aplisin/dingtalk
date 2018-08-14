@@ -91,7 +91,7 @@ class Arr
 
     public static function flatten(array $array, $depth = INF)
     {
-        return array_reduce($array, function ($result, $item) use ($depth) {
+        return array_reduce($array, function($result, $item) use ($depth) {
             $item = $item instanceof Collection ? $item->all() : $item;
             if (!is_array($item)) {
                 return array_merge($result, [$item]);
