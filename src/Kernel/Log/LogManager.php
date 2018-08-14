@@ -104,7 +104,7 @@ class LogManager implements LoggerInterface
             return $this->callCustomCreator($config);
         }
 
-        $driverMethod = 'create' . ucfirst($config['driver']) . 'Driver';
+        $driverMethod = 'create'.ucfirst($config['driver']).'Driver';
 
         if (method_exists($this, $driverMethod)) {
             return $this->{$driverMethod}($config);
@@ -120,7 +120,7 @@ class LogManager implements LoggerInterface
     protected function createEmergencyLogger()
     {
         return new Monolog('AplisinDingTalk', $this->prepareHandlers([
-            new StreamHandler(\sys_get_temp_dir() . '/dingtalk/dingtalk.log', $this->level(['level' => 'debug']))
+            new StreamHandler(\sys_get_temp_dir().'/dingtalk/dingtalk.log', $this->level(['level' => 'debug']))
         ]));
     }
 
