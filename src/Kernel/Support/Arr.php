@@ -150,14 +150,7 @@ class Arr
 
     public static function has(array $array, $keys)
     {
-        if (is_null($keys)) {
-            return false;
-        }
-        $keys = (array) $keys;
-        if (empty($array)) {
-            return false;
-        }
-        if ($keys === []) {
+        if (self::isArrayUnValidated($array, $keys)) {
             return false;
         }
         foreach ($keys as $key) {
@@ -174,6 +167,21 @@ class Arr
             }
         }
         return true;
+    }
+
+    protected static function isArrayUnValidated(array $array, $keys)
+    {
+        if (is_null($keys)) {
+            return true;
+        }
+        $keys = (array) $keys;
+        if (empty($array)) {
+            return true;
+        }
+        if ($keys === []) {
+            return true;
+        }
+        return false;
     }
 
     public static function isAssoc(array $array)
