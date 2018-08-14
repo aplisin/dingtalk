@@ -15,6 +15,11 @@ use Aplisin\DingTalk\Kernel\Providers\LogServiceProvider;
 use Aplisin\DingTalk\Kernel\Providers\RequestServiceProvider;
 use Pimple\Container;
 
+/**
+ * Class ServiceContainer
+ *
+ * @property Config $config
+ */
 class ServiceContainer extends Container
 {
     protected $id;
