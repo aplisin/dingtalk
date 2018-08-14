@@ -21,4 +21,15 @@ class ClientTest extends BaseCase
         ])->andReturn('mock-result')->once();
         $this->assertSame('mock-result', $client->listIds(1));
     }
+
+    public function testList()
+    {
+        $client = $this->mockApiClient(Client::class);
+        $client->expects()->httpGet('/department/list', [
+            'id' => 1,
+            'fetch_child' => false,
+            'lang' => 'zh_CN'
+        ])->andReturn('mock-result')->once();
+        $this->assertSame('mock-result', $client->list(1));
+    }
 }

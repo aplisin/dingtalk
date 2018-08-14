@@ -21,4 +21,21 @@ class Client extends BaseClient
     {
         return $this->httpGet('/department/list_ids', compact('id'));
     }
+
+    /**
+     * @param int $id
+     * @param bool $fetchChild
+     * @param string $lang
+     * @return \Aplisin\DingTalk\Kernel\Http\Response|\Aplisin\DingTalk\Kernel\Support\Collection|array|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function list($id = 1, $fetchChild = false, $lang = 'zh_CN')
+    {
+        $params = [
+            'id' => $id,
+            'fetch_child' => $fetchChild,
+            'lang' => $lang
+        ];
+        return $this->httpGet('/department/list', $params);
+    }
 }
