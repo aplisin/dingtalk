@@ -38,4 +38,19 @@ class Client extends BaseClient
         ];
         return $this->httpGet('/department/list', $params);
     }
+
+    /**
+     * @param int $id
+     * @param string $lang
+     * @return \Aplisin\DingTalk\Kernel\Http\Response|\Aplisin\DingTalk\Kernel\Support\Collection|array|mixed|\Psr\Http\Message\ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function get(int $id, $lang = 'zh_CN')
+    {
+        $params = [
+            'id' => $id,
+            'lang' => $lang
+        ];
+        return $this->httpGet('/department/get', $params);
+    }
 }
