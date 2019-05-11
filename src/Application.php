@@ -8,19 +8,20 @@
 
 namespace Aplisin\DingTalk;
 
-use Aplisin\DingTalk\Department\ServiceProvider;
 use Aplisin\DingTalk\Kernel\ServiceContainer;
 
 /**
  * Class Application
  * @property \Aplisin\DingTalk\Auth\AccessToken $access_token
  * @property \Aplisin\DingTalk\Department\Client $department
+ * @property \Aplisin\DingTalk\User\Client $user
  */
 class Application extends ServiceContainer
 {
     protected $providers = [
         Auth\ServiceProvider::class,
-        ServiceProvider::class
+        Department\ServiceProvider::class,
+        User\ServiceProvider::class
     ];
 
     protected $defaultConfig = [

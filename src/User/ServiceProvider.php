@@ -6,16 +6,16 @@
  * with this source code in the file LICENSE.
  */
 
-namespace Aplisin\DingTalk\Department;
+namespace Aplisin\DingTalk\User;
 
-use Pimple\Container;
 use Pimple\ServiceProviderInterface;
+use Pimple\Container;
 
 class ServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $app)
     {
-        $app['department'] = function ($app) {
+        $app['user'] = function ($app) {
             return new Client($app);
         };
     }
